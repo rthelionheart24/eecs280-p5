@@ -448,7 +448,24 @@ private:
   //       parameter to compare elements.
   static Node *insert_impl(Node *node, const T &item, Compare less)
   {
-    assert(false);
+    if(node== nullptr) {
+
+        Node n1{item, nullptr, nullptr};
+        return n1;
+
+    }
+    else{
+
+        if(less(item,node->datum)){
+            insert_impl(node->left,item,less);
+        }
+        else
+            insert_impl(node->right,item,less);
+
+        return node;
+
+    }
+
   }
 
   // EFFECTS : Returns a pointer to the Node containing the minimum element
@@ -490,13 +507,30 @@ private:
   // NOTE:    This function must be tree recursive.
   static bool check_sorting_invariant_impl(const Node *node, Compare less)
   {
+
+    bool t1, t2;
+
     if (node == nullptr)
       return true;
 
-    if (node->left == nullptr && node->right == nullptr)
-      return true;
 
-    if (node->left)
+    if (node->left) {
+        if(!less(node->left->datum,node->datum))
+            return false;
+
+    }
+    t1=check_sorting_invariant_impl(node->left, less);
+
+
+    if (node->right) {
+        if(!less(node->datum,node->right->datum))
+            return false;
+
+    }
+    t2=check_sorting_invariant_impl(node->right, less);
+
+
+    return t1 && t2;
   }
 
   // EFFECTS : Traverses the tree rooted at 'node' using an in-order traversal,
