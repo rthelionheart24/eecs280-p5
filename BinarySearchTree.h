@@ -375,7 +375,7 @@ private:
     if (node->left == nullptr && node->right == nullptr)
       return 1;
 
-    return max(height_impl(node->left), height_impl(node->right)) + 1;
+    return std::max(height_impl(node->left), height_impl(node->right)) + 1;
   }
 
   // EFFECTS: Creates and returns a pointer to the root of a new node structure
@@ -450,7 +450,7 @@ private:
   {
     if(node== nullptr) {
 
-        Node n1{item, nullptr, nullptr};
+        Node *n1 = new Node{item, nullptr, nullptr};
         return n1;
 
     }
@@ -591,6 +591,14 @@ private:
   {
     if (node == nullptr)
       return nullptr;
+
+    if(less(val,node->datum))
+        return min_greater_than_impl(node->left,val,less);
+    else
+        return min_greater_than_impl(node->right,val,less);
+
+
+
   }
 
 }; // END of BinarySearchTree class
