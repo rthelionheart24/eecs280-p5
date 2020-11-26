@@ -3,14 +3,14 @@
 #include "BinarySearchTree.h"
 #include "unit_test_framework.h"
 
-
-TEST(test_empty) {
+TEST(test_empty)
+{
     BinarySearchTree<int> tree;
     ASSERT_TRUE(tree.empty());
-
 }
 
-TEST(test_size) {
+TEST(test_size)
+{
 
     BinarySearchTree<int> tree;
     ASSERT_EQUAL(tree.size(), 0u);
@@ -18,8 +18,8 @@ TEST(test_size) {
     ASSERT_EQUAL(tree.size(), 1u);
 }
 
-TEST(test_height) {
-
+TEST(test_height)
+{
 
     BinarySearchTree<int> tree;
     ASSERT_EQUAL(tree.height(), 0u);
@@ -27,20 +27,20 @@ TEST(test_height) {
     ASSERT_EQUAL(tree.height(), 1u);
 }
 
-TEST(test_copy_nodes) {
+// TEST(test_copy_nodes)
+// {
 
+//     BinarySearchTree<int> tree;
+//     tree.insert(3);
+//     BinarySearchTree<int> t1 = tree;
 
-    BinarySearchTree<int> tree;
-    tree.insert(3);
-    BinarySearchTree<int> t1 = tree;
+//     ASSERT_EQUAL(t1.height(), 1);
+//     ASSERT_EQUAL(t1.size(), 1);
+//     ASSERT_EQUAL(*t1.begin(), 3);
+// }
 
-    ASSERT_EQUAL(t1.height(), 1);
-    ASSERT_EQUAL(t1.size(), 1);
-    ASSERT_EQUAL(*t1.begin(), 3);
-
-}
-
-TEST(test_traverse_preorder) {
+TEST(test_traverse_preorder)
+{
     BinarySearchTree<int> tree;
 
     tree.insert(4);
@@ -50,11 +50,10 @@ TEST(test_traverse_preorder) {
     tree.insert(2);
     tree.insert(0);
     tree.insert(10);
-
-
 }
 
-TEST(test_traverse_inorder) {
+TEST(test_traverse_inorder)
+{
     BinarySearchTree<int> tree;
     tree.insert(4);
     tree.insert(5);
@@ -63,11 +62,10 @@ TEST(test_traverse_inorder) {
     tree.insert(2);
     tree.insert(0);
     tree.insert(10);
-
-
 }
 
-TEST(test_sorting_invariant) {
+TEST(test_sorting_invariant)
+{
     BinarySearchTree<int> tree;
     tree.insert(4);
     tree.insert(5);
@@ -80,10 +78,10 @@ TEST(test_sorting_invariant) {
     *tree.begin() = 20;
 
     ASSERT_FALSE(tree.check_sorting_invariant());
-
 }
 
-TEST(test_begin) {
+TEST(test_begin)
+{
     BinarySearchTree<int> tree;
     tree.insert(4);
     tree.insert(5);
@@ -94,26 +92,24 @@ TEST(test_begin) {
     tree.insert(10);
 
     ASSERT_EQUAL(*tree.begin(), 0);
-
-
 }
 
+// TEST(test_end) {
+//     BinarySearchTree<int> tree;
+//     tree.insert(4);
+//     tree.insert(5);
+//     tree.insert(8);
+//     tree.insert(1);
+//     tree.insert(2);
+//     tree.insert(0);
+//     tree.insert(10);
 
-TEST(test_end) {
-    BinarySearchTree<int> tree;
-    tree.insert(4);
-    tree.insert(5);
-    tree.insert(8);
-    tree.insert(1);
-    tree.insert(2);
-    tree.insert(0);
-    tree.insert(10);
+//     ASSERT_EQUAL(tree.end(), nullptr);
 
-    ASSERT_EQUAL(tree.end(), nullptr);
+// }
 
-}
-
-TEST(test_min_element) {
+TEST(test_min_element)
+{
     BinarySearchTree<int> tree;
     tree.insert(4);
     tree.insert(5);
@@ -124,10 +120,10 @@ TEST(test_min_element) {
     tree.insert(10);
 
     ASSERT_EQUAL(*tree.min_element(), 0);
-
 }
 
-TEST(test_max_element) {
+TEST(test_max_element)
+{
     BinarySearchTree<int> tree;
     tree.insert(4);
     tree.insert(5);
@@ -138,10 +134,10 @@ TEST(test_max_element) {
     tree.insert(10);
 
     ASSERT_EQUAL(*tree.max_element(), 10);
-
 }
 
-TEST(test_min_greater_than) {
+TEST(test_min_greater_than)
+{
     BinarySearchTree<int> tree;
     tree.insert(4);
     tree.insert(5);
@@ -154,10 +150,11 @@ TEST(test_min_greater_than) {
     ASSERT_EQUAL(*tree.min_greater_than(7), 8);
 }
 
-TEST(test_find) {
+TEST(test_find)
+{
     BinarySearchTree<int> tree;
 
-    ASSERT_EQUAL(tree.find(1), nullptr);
+    ASSERT_EQUAL(tree.find(1), tree.end());
 
     tree.insert(4);
     tree.insert(5);
@@ -167,12 +164,12 @@ TEST(test_find) {
     tree.insert(0);
     tree.insert(10);
 
-    ASSERT_EQUAL(tree.find(20), nullptr);
+    ASSERT_EQUAL(tree.find(20), tree.end());
     ASSERT_EQUAL(*tree.find(10), 10);
-
 }
 
-TEST(test_insert) {
+TEST(test_insert)
+{
 
     BinarySearchTree<int> tree;
     tree.insert(4);
@@ -183,8 +180,6 @@ TEST(test_insert) {
 
     tree.insert(1);
     ASSERT_EQUAL(*tree.begin(), 1);
-
-
 }
 
 TEST_MAIN()

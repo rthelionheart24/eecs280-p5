@@ -448,24 +448,21 @@ private:
   //       parameter to compare elements.
   static Node *insert_impl(Node *node, const T &item, Compare less)
   {
-    if(node== nullptr) {
+    if (node == nullptr)
+    {
 
-        Node *n1 = new Node{item, nullptr, nullptr};
-        return n1;
-
+      Node *n1 = new Node{item, nullptr, nullptr};
+      return n1;
     }
-    else{
+    else
+    {
 
-        if(less(item,node->datum)){
-            insert_impl(node->left,item,less);
-        }
-        else
-            insert_impl(node->right,item,less);
-
-        return node;
-
+      if (less(item, node->datum))
+        node->left = insert_impl(node->left, item, less);
+      else
+        node->right = insert_impl(node->right, item, less);
+      return node;
     }
-
   }
 
   // EFFECTS : Returns a pointer to the Node containing the minimum element
@@ -499,7 +496,7 @@ private:
     if (node->right == nullptr)
       return node;
 
-    return min_element_impl(node->right);
+    return max_element_impl(node->right);
   }
 
   // EFFECTS: Returns whether the sorting invariant holds on the tree
@@ -513,22 +510,19 @@ private:
     if (node == nullptr)
       return true;
 
-
-    if (node->left) {
-        if(!less(node->left->datum,node->datum))
-            return false;
-
+    if (node->left)
+    {
+      if (!less(node->left->datum, node->datum))
+        return false;
     }
-    t1=check_sorting_invariant_impl(node->left, less);
+    t1 = check_sorting_invariant_impl(node->left, less);
 
-
-    if (node->right) {
-        if(!less(node->datum,node->right->datum))
-            return false;
-
+    if (node->right)
+    {
+      if (!less(node->datum, node->right->datum))
+        return false;
     }
-    t2=check_sorting_invariant_impl(node->right, less);
-
+    t2 = check_sorting_invariant_impl(node->right, less);
 
     return t1 && t2;
   }
@@ -592,13 +586,21 @@ private:
     if (node == nullptr)
       return nullptr;
 
-    if(less(val,node->datum))
-        return min_greater_than_impl(node->left,val,less);
-    else
-        return min_greater_than_impl(node->right,val,less);
+    if (node->datum == val || node->datum == val + 1)
+      return node;
 
+    if (less(val, min_element_impl(node)->datum))
+      return min_element_impl(node);
 
+    if (less(max_element_impl(node)->datum, val))
+      return nullptr;
 
+    if (less(node->datum, val))
+    {
+      return min_greater_than_impl(node->right, val, less);
+    }
+
+    return min_greater_than_impl(node->left, val, less);
   }
 
 }; // END of BinarySearchTree class
