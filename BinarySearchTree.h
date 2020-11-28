@@ -586,21 +586,13 @@ private:
     if (node == nullptr)
       return nullptr;
 
-    if (node->datum == val || node->datum == val + 1)
-      return node;
-
     if (less(val, min_element_impl(node)->datum))
       return min_element_impl(node);
 
-    if (less(max_element_impl(node)->datum, val))
-      return nullptr;
+    if (less(val, node->datum))
+      return min_greater_than_impl(node->left, val, less);
 
-    if (less(node->datum, val))
-    {
-      return min_greater_than_impl(node->right, val, less);
-    }
-
-    return min_greater_than_impl(node->left, val, less);
+    return min_greater_than_impl(node->right, val, less);
   }
 
 }; // END of BinarySearchTree class

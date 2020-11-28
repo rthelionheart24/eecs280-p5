@@ -6,8 +6,8 @@
 
 using namespace std;
 
-
-TEST(bst_public_test) {
+TEST(bst_public_test)
+{
   BinarySearchTree<int> tree;
 
   tree.insert(5);
@@ -26,21 +26,26 @@ TEST(bst_public_test) {
   ASSERT_TRUE(*tree.min_greater_than(5) == 7);
 
   cout << "cout << tree.to_string()" << endl;
-  cout << tree.to_string() << endl << endl;
+  cout << tree.to_string() << endl
+       << endl;
 
-  cout << "cout << tree" << endl << "(uses iterators)" << endl;
-  cout << tree << endl << endl;
+  cout << "cout << tree" << endl
+       << "(uses iterators)" << endl;
+  cout << tree << endl
+       << endl;
 
   ostringstream oss_preorder;
   tree.traverse_preorder(oss_preorder);
   cout << "preorder" << endl;
-  cout << oss_preorder.str() << endl << endl;
+  cout << oss_preorder.str() << endl
+       << endl;
   ASSERT_TRUE(oss_preorder.str() == "5 3 7 ");
 
   ostringstream oss_inorder;
   tree.traverse_inorder(oss_inorder);
   cout << "inorder" << endl;
-  cout << oss_inorder.str() << endl << endl;
+  cout << oss_inorder.str() << endl
+       << endl;
   ASSERT_TRUE(oss_inorder.str() == "3 5 7 ");
 }
 
