@@ -24,7 +24,7 @@
 // part of the STL except for containers.
 
 template <typename T,
-          typename Compare = std::less<T> // default if argument isn't provided
+          typename Compare = std::less<T> /**/ // default if argument isn't provided
           >
 class BinarySearchTree
 {
