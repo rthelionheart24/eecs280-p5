@@ -604,7 +604,7 @@ private:
 
     //val>=node->datum
     if (!less(val, node->datum))
-      min_greater_than_impl(node->right, val, less);
+      return min_greater_than_impl(node->right, val, less);
 
     //If val<node->datum
     return min_greater_than_impl(node->left, val, less);
