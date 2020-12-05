@@ -13,12 +13,33 @@
 
 using namespace std;
 
+set<string> unique_words(const string &str);
+
 class classifier
 {
 
 public:
-    classifier();
-    ~classifier();
+    //EFFECT: Print classifier info
+    void info()
+    {
+        cout << "vocabulary size = " << vocab_size << endl
+             << endl;
+        cout << "classes:" << endl;
+        for (auto &key : num_posts_with_C)
+        {
+            cout << key.first << ", " << key.second << " examples, log-prior = "
+                 << compute_log_prior(key.first) << endl;
+        }
+
+        cout << "classifier parameters:" << endl;
+        for (auto &k_v : num_posts_C_w)
+        {
+            cout << k_v.first.first << ":" << k_v.first.second << ", count = "
+                 << k_v.second << ", log-likelihood = "
+                 << compute_log_likelihood(k_v.first.first, k_v.first.second) << endl;
+        }
+        cout << endl;
+    }
 
     //EFFECT: Train the classifier with the training set provided
     void train(csvstream &in_train)
@@ -41,8 +62,10 @@ public:
             for (auto &i : unique)
                 num_posts_contain_w[i]++;
 
+            //Post with the label "tag"
             num_posts_with_C[tag]++;
 
+            //Posts containing word w and label C
             for (auto &i : unique)
                 num_posts_C_w[{tag, i}]++;
         }
@@ -52,12 +75,12 @@ public:
     }
 
     //EFFECT: Test the accuracy of the classifier with the testing set provided
-    map<string, string> &test(csvstream &in_test)
+    map<string, pair<string, double>> test(csvstream &in_test)
     {
 
         map<string, string> temp;
         map<string, double> probability;
-        map<string, string> &results;
+        map<string, pair<string, double>> results;
 
         while (in_test >> temp)
         {
@@ -71,10 +94,12 @@ public:
                 if (p > highest)
                 {
                     highest = p;
-                    results[content] = p;
+                    results[content] = {i.first, highest};
                 }
             }
         }
+
+        return results;
     }
 
     int get_num_posts()
@@ -85,6 +110,21 @@ public:
     int get_vocab_size()
     {
         return vocab_size;
+    }
+
+    int get_num_post_with_C(string C)
+    {
+        return num_posts_with_C[C];
+    }
+
+    int get_num_post_contain_w(string w)
+    {
+        return num_posts_contain_w[w];
+    }
+
+    int get_num_post_with_C_contain_w(string C, string w)
+    {
+        return num_posts_C_w[{C, w}];
     }
 
 private:
@@ -134,8 +174,7 @@ private:
     map<pair<string, string>, int> num_posts_C_w;
 };
 
-set<string> unique_words(const string &str);
-void summary(classifier piazza, int argc);
+void summary(classifier &piazza, csvstream &in_train, csvstream &in_test, int argc);
 
 int main(int argc, const char *argv[])
 {
@@ -156,15 +195,9 @@ int main(int argc, const char *argv[])
     csvstream in_train(train_file), in_test(test_file);
     classifier piazza;
 
-    piazza.train(in_train);
-    map<string, string> results = piazza.test(in_test);
+    summary(piazza, in_train, in_test, argc);
 
     return 0;
-}
-
-void output(int argc)
-{
-    if (argc == 4)
 }
 
 set<string> unique_words(const string &str)
@@ -181,29 +214,45 @@ set<string> unique_words(const string &str)
     return words;
 }
 
-void summary(classifier piazza, map<string, string> &results,
-             csvstream &in_train, csvstreaem &in_test, int argc)
+void summary(classifier &piazza, csvstream &in_train, csvstream &in_test, int argc)
 {
+    piazza.train(in_train);
+    map<string, pair<string, double>> results = piazza.test(in_test);
+    map<string, string> temp;
 
     if (argc == 4)
     {
-
         cout << "training data:" << endl;
-        map<string, string> temp;
         while (in_train >> temp)
-        {
             cout << "label = " << temp["tag"] << ", content = " << temp["content"] << endl;
-        }
     }
 
     cout << "trained on " << piazza.get_num_posts() << " examples" << endl;
 
     if (argc == 4)
+        piazza.info();
+
+    cout << "test data:" << endl;
+    while (in_test >> temp)
     {
-        cout << "vocabulary size = " << piazza.get_vocab_size() << endl
+        int predicted_correctly = 0;
+        int total_predicted = 0;
+
+        string correct = temp["tag"];
+        string content = temp["content"];
+        string label = results[content].first;
+        double prob = results[content].second;
+
+        if (label == correct)
+            predicted_correctly++;
+        total_predicted++;
+
+        cout << "correct = " << correct << ", predicted = " << label
+             << ", log-probability score = " << prob << endl;
+        cout << "content = " << content << endl
              << endl;
 
-        cout << "classes:" << endl;
-        cout << temp["tag"] << ", " << ;
+        cout << "performance : " << predicted_correctly << " / "
+             << total_predicted << " posts predicted correctly" << endl;
     }
 }
