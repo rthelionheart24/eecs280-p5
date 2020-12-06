@@ -1,3 +1,6 @@
+#include <iostream>
+#include <sstream>
+#include <string>
 #include "BinarySearchTree.h"
 #include "unit_test_framework.h"
 
@@ -64,6 +67,11 @@ TEST(test_traverse_preorder)
     tree.insert(2);
     tree.insert(0);
     tree.insert(10);
+
+    std::string expected = "4 1 0 2 5 8 10 ";
+    std::ostringstream out;
+    tree.traverse_preorder(out);
+    ASSERT_EQUAL(out.str(), expected);
 }
 
 TEST(test_traverse_inorder)
@@ -76,6 +84,11 @@ TEST(test_traverse_inorder)
     tree.insert(2);
     tree.insert(0);
     tree.insert(10);
+
+    std::string expected = "0 1 2 4 5 8 10 ";
+    std::ostringstream out;
+    tree.traverse_inorder(out);
+    ASSERT_EQUAL(out.str(), expected);
 }
 
 TEST(test_sorting_invariant)
