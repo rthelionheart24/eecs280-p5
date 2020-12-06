@@ -2,13 +2,10 @@
 #include <fstream>
 #include <cstdlib>
 #include <cassert>
-#include <cstring>
 #include <string>
-#include <array>
 #include <vector>
-#include <sstream>
-#include <algorithm>
-#include "BinarySearchTree.h"
+#include <set>
+#include <cmath>
 #include "csvstream.h"
 
 using namespace std;
@@ -55,7 +52,8 @@ public:
         while (in_train >> temp)
         {
             if (argc == 4)
-                cout << "   label = " << temp["tag"] << ", content = " << temp["content"] << endl;
+                cout << "   label = " << temp["tag"]
+                     << ", content = " << temp["content"] << endl;
 
             set<string> unique = unique_words(temp["content"]);
             string tag = temp["tag"];
@@ -244,48 +242,6 @@ int main(int argc, const char *argv[])
     return 0;
 }
 
-// void summary(classifier &piazza, csvstream &in_train, csvstream &in_test, int argc)
-// {
-//     piazza.train(in_train, argc);
-//     map<string, pair<string, double>> results = piazza.test(in_test, argc);
-//     map<string, string> temp;
-
-// if (argc == 4)
-// {
-//     cout << "training data:" << endl;
-//     while (in_train >> temp)
-//         cout << "predicted_label = " << temp["tag"] << ", content = " << temp["content"] << endl;
-// }
-
-// cout << "trained on " << piazza.get_num_posts() << " examples" << endl;
-
-// if (argc == 4)
-//     piazza.info();
-
-// cout << "test data:" << endl;
-// while (in_test >> temp)
-// {
-//     int predicted_correctly = 0;
-//     int total_predicted = 0;
-
-//     string correct = temp["tag"];
-//     string content = temp["content"];
-//     string predicted_label = results[content].first;
-//     double prob = results[content].second;
-
-//     if (predicted_label == correct)
-//         predicted_correctly++;
-//     total_predicted++;
-
-//     cout << "correct = " << correct << ", predicted = " << predicted_label
-//          << ", log-probability score = " << prob << endl;
-//     cout << "content = " << content << endl
-//          << endl;
-
-//     cout << "performance : " << predicted_correctly << " / "
-//          << total_predicted << " posts predicted correctly" << endl;
-// }
-//}
 set<string> unique_words(const string &str)
 {
     istringstream source(str);
