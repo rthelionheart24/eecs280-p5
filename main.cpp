@@ -96,8 +96,7 @@ public:
         int predicted_correctly = 0;
         int total_predicted = 0;
 
-        if (argc == 4)
-            cout << "test data:" << endl;
+        cout << "test data:" << endl;
 
         while (in_test >> temp)
         {
@@ -131,13 +130,14 @@ public:
                 predicted_correctly++;
             total_predicted++;
 
-            cout << "correct = " << actual_label << ", predicted = " << predicted_label
+            cout << "   correct = " << actual_label << ", predicted = " << predicted_label
                  << ", log-probability score = " << prob << endl;
-            cout << "content = " << content << endl
+            cout << "   content = " << content << endl
                  << endl;
         }
         cout << "performance : " << predicted_correctly << " / "
              << total_predicted << " posts predicted correctly" << endl;
+
         return results;
     }
 
