@@ -24,14 +24,14 @@ public:
         cout << "classes:" << endl;
         for (auto &key : num_posts_with_C)
         {
-            cout << "   " << key.first << ", " << key.second << " examples, log-prior = "
+            cout << "  " << key.first << ", " << key.second << " examples, log-prior = "
                  << compute_log_prior(key.first) << endl;
         }
 
         cout << "classifier parameters:" << endl;
         for (auto &k_v : num_posts_C_w)
         {
-            cout << "   " << k_v.first.first << ":" << k_v.first.second << ", count = "
+            cout << "  " << k_v.first.first << ":" << k_v.first.second << ", count = "
                  << k_v.second << ", log-likelihood = "
                  << compute_log_likelihood(k_v.first.first, k_v.first.second) << endl;
         }
@@ -52,7 +52,7 @@ public:
         while (in_train >> temp)
         {
             if (argc == 4)
-                cout << "   label = " << temp["tag"]
+                cout << "  label = " << temp["tag"]
                      << ", content = " << temp["content"] << endl;
 
             set<string> unique = unique_words(temp["content"]);
@@ -130,12 +130,12 @@ public:
                 predicted_correctly++;
             total_predicted++;
 
-            cout << "   correct = " << actual_label << ", predicted = " << predicted_label
+            cout << "  correct = " << actual_label << ", predicted = " << predicted_label
                  << ", log-probability score = " << prob << endl;
-            cout << "   content = " << content << endl
+            cout << "  content = " << content << endl
                  << endl;
         }
-        cout << "performance : " << predicted_correctly << " / "
+        cout << "performance: " << predicted_correctly << " / "
              << total_predicted << " posts predicted correctly" << endl;
 
         return results;
